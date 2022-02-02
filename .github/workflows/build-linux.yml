@@ -30,7 +30,7 @@ jobs:
         mv ../*.deb .
 
         # cp repository/src/workspace/*.img $IMAGE.img
-        DEB_PATH=$(ls ./rpi-imager*.deb | head -n 1)
+        DEB_PATH=$(ls rpi-imager*.deb | head -n 1)
 
         echo "::set-output name=image::$DEB_PATH"
 
@@ -38,4 +38,4 @@ jobs:
     - uses: actions/upload-artifact@v1
       with:
         name: ${{ steps.copy.outputs.image }}
-        path: ${{ steps.copy.outputs.image }}.img
+        path: ${{ steps.copy.outputs.image }}

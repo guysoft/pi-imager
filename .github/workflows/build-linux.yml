@@ -25,7 +25,6 @@ jobs:
     - name: Copy output
       id: copy
       run: |
-        source repository/src/config
         # NOW=$(date +"%Y-%m-%d-%H%M")
         # LATEST=$NOW-rpi-imager-$DIST_VERSION
 

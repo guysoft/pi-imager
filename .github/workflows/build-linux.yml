@@ -27,6 +27,7 @@ jobs:
       run: |
         # NOW=$(date +"%Y-%m-%d-%H%M")
         # LATEST=$NOW-rpi-imager-$DIST_VERSION
+        mv ../*.deb .
 
         # cp repository/src/workspace/*.img $IMAGE.img
         DEB_PATH=$(ls ./rpi-imager*.deb | head -n 1)

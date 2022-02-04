@@ -27,7 +27,6 @@ jobs:
         arch: 'win32_msvc2015'
         install-deps: 'true'
         setup-python: 'true'
-        modules: 'qtcharts qtwebengine'
         cached: 'false'
         
     - name: Configure test project on windows

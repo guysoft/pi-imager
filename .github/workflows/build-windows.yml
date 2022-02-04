@@ -13,6 +13,11 @@ jobs:
     - name: Checkout rpi-imager
       uses: actions/checkout@v2
       
+    - name: Upgrade aqtinstall
+      run: |
+          pip install --upgrade aqtinstall
+      shell: cmd
+      
     - name: Install Qt
       uses: jurplel/install-qt-action@v2
       with:

@@ -1,4 +1,4 @@
-name: Build Image
+name: Build Windows
 
 on:
   repository_dispatch:
@@ -29,7 +29,6 @@ jobs:
         setup-python: 'true'
         modules: 'qtcharts qtwebengine'
         cached: 'false'
-        tools: 'tools_ifw tools_qtcreator,qt.tools.qtcreator'
         
     - name: Configure test project on windows
       env:

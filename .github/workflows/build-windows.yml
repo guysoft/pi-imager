@@ -1,0 +1,33 @@
+name: Build Image
+
+on:
+  repository_dispatch:
+  push:
+  # schedule: 
+  #   - cron: '0 0 * * *'
+
+jobs:
+  build:
+    runs-on: 'windows-2019'
+    steps:
+    - name: Checkout rpi-imager
+      uses: actions/checkout@v2
+
+    - name: Install Qt5 with options
+      uses: ./
+      with:
+        host: 'windows'
+        install-deps: 'true'
+        modules: 'qtwebengine'
+        version: '5.15.2'
+        tools: 'tools_ifw tools_qtcreator,qt.tools.qtcreator'
+        arch: 'win32_msvc2015'
+    - name: Configure test project on windows
+    env:
+        QT_VERSION: '5.15.2'
+    run: |
+        dir "%programfiles(x86)%\Microsoft Visual Studio\"
+        call "%programfiles(x86)%\Microsoft Visual Studio\2015\Enterprise\VC\Auxiliary\Build\vcvars32.bat"
+        IF "%QT_VERSION:~0,1%"=="5" ( dir %Qt5_DIR%\lib\cmake ) ELSE ( dir %Qt6_DIR%\lib\cmake )
+        qmake
+    shell: cmd

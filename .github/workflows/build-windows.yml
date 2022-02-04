@@ -12,16 +12,19 @@ jobs:
     steps:
     - name: Checkout rpi-imager
       uses: actions/checkout@v2
-
-    - name: Install Qt5 with options
-      uses: ./
+      
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v2
       with:
-        host: 'windows'
-        install-deps: 'true'
-        modules: 'qtwebengine'
         version: '5.15.2'
-        tools: 'tools_ifw tools_qtcreator,qt.tools.qtcreator'
+        host: 'windows'
+        target: 'desktop'
         arch: 'win32_msvc2015'
+        install-deps: 'true'
+        modules: 'qtcharts qtwebengine'
+        cached: 'false'
+        tools: 'tools_ifw tools_qtcreator,qt.tools.qtcreator'
+        
     - name: Configure test project on windows
       env:
         QT_VERSION: '5.15.2'

@@ -36,7 +36,6 @@ jobs:
         target: openssl/
     - name: Build OpenSSL
       run: |
-          mkdir -p openssl
           cd openssl
           dir
           

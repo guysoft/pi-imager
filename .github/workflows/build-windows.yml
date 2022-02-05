@@ -27,6 +27,7 @@ jobs:
           make
           perl
           base-devel
+          gcc
         location: C:\msys2
     - name: '🚧 Build OpenSSL'
       shell: msys2 {0}

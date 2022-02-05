@@ -28,6 +28,7 @@ jobs:
           perl
         location: C:\msys2
     - name: '🚧 Build OpenSSL'
+      shell: bash
       run: |
         cd openssl
         tar xzvf openssl-1.1.1m.tar.gz

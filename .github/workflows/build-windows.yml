@@ -36,7 +36,7 @@ jobs:
         tar xzvf openssl-1.1.1m.tar.gz
         cd openssl-1.1.1m
         echo "run configure"
-        perl ./Configure --banner=Configured no-makedepend mingw
+        perl ./Configure --prefix=$PWD/dist no-idea no-mdc2 no-rc5 shared mingw
         make depend
         echo "run make"
         make

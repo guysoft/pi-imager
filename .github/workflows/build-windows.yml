@@ -38,27 +38,24 @@ jobs:
       uses: msys2/setup-msys2@v2
       with:
         msystem: mingw32
-        install: mingw-w64-i686-openssl
+        install: >-
+          mingw-w64-i686-openssl
+          make
+          perl
         location: C:\msys2
-          
+    - name: '🚧 Build OpenSSL'
+      run: |
+        cd openssl
+        tar xzvf openssl-1.1.1m.tar.gz
+        echo "run configure"
+        perl ./Configure --banner=Configured no-makedepend mingw
+        make depend
+        echo "run make"
+        make
     - name: Build OpenSSL
       shell: bash
       run: |
-          cd openssl
           dir
-          
-          tar xzvf openssl-1.1.1m.tar.gz
-          cd openssl-1.1.1m
-          echo "run configure"
-          perl ./Configure --banner=Configured no-makedepend mingw
-          perl configdata.pm --dump
-          echo "where gcc"
-          where gcc
-          echo "run make depend"
-          make depend
-          echo "run make"
-          make
-          
           cd ..
           cd ..
       

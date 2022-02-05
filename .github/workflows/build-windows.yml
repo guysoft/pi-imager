@@ -24,7 +24,7 @@ jobs:
         version: '5.15.2'
         host: 'windows'
         target: 'desktop'
-        arch: 'win32_msvc2015'
+        arch: 'win32_mingw81'
         install-deps: 'true'
         setup-python: 'true'
         cached: 'false'

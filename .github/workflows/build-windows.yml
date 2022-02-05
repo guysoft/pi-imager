@@ -33,9 +33,10 @@ jobs:
       shell: msys2 {0}
       run: |
         cd openssl
-        tar xzvf openssl-1.1.1m.tar.gz
+        tar xzf openssl-1.1.1m.tar.gz
         cd openssl-1.1.1m
         echo "run configure"
+        export PATH="/c/msys2/mingw32/bin:$PATH"
         perl ./Configure --prefix=$PWD/dist no-idea no-mdc2 no-rc5 shared mingw
         make depend
         echo "run make"

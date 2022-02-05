@@ -28,6 +28,7 @@ jobs:
         install-deps: 'true'
         setup-python: 'true'
         cached: 'false'
+        tools: 'tools_openssl_x86'
         
     - name: Configure test project on windows
       env:
@@ -39,7 +40,9 @@ jobs:
           #IF "%QT_VERSION:~0,1%"=="5" ( dir %Qt5_DIR%\lib\cmake ) ELSE ( dir %Qt6_DIR%\lib\cmake )
           #qmake
       run: |
-          dir "%programfiles(x86)%\Microsoft Visual Studio\"
+      
+          dir "C:\qt"
+          
           mkdir build
           cd build
           cmake ..

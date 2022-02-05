@@ -34,6 +34,10 @@ jobs:
       with:
         url: "https://www.openssl.org/source/openssl-1.1.1m.tar.gz"
         target: openssl/
+    - name: Install cpan modules
+      shell: bash
+      run: |
+          cpan Pod::Usage
     - name: Build OpenSSL
       shell: bash
       run: |

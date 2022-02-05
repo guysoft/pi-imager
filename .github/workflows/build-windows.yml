@@ -37,6 +37,7 @@ jobs:
     - name: Install cpan modules
       shell: bash
       run: |
+          cpan CPAN::Author
           cpan Pod::Usage
     - name: Build OpenSSL
       shell: bash

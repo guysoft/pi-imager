@@ -39,7 +39,6 @@ jobs:
           cd openssl
           dir
           
-          wget https://www.openssl.org/source/openssl-1.1.1m.tar.gz
           tar xzvf openssl-1.1.1m.tar.gz
           cd openssl-1.1.1m
           ./Configure --prefix=$PWD/dist no-idea no-mdc2 no-rc5 shared mingw

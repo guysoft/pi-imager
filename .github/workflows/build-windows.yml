@@ -40,8 +40,14 @@ jobs:
         perl-version: '5.34'
         install-modules-with: cpanm
         install-modules-args: --with-develop --with-configure
+        
+    - name: Install perl module
+      shell: bash
+      run: |
+          cpan Pod::Usage
+          
     - name: Build OpenSSL
-      shell: pwsh
+      shell: bash
       run: |
           cd openssl
           dir

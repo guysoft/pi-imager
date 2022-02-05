@@ -12,22 +12,6 @@ jobs:
     steps:
     - name: Checkout rpi-imager
       uses: actions/checkout@v2
-      
-    - name: Upgrade aqtinstall
-      run: |
-          pip install --upgrade aqtinstall
-      shell: cmd
-      
-    - name: Install Qt
-      uses: jurplel/install-qt-action@v2
-      with:
-        version: '5.15.2'
-        host: 'windows'
-        target: 'desktop'
-        arch: 'win32_mingw81'
-        install-deps: 'true'
-        setup-python: 'true'
-        cached: 'false'
     - name: Download the file
       uses: suisei-cn/actions-download-file@v1
       id: downloadfile  # Remember to give an ID if you need the output filename
@@ -60,7 +44,21 @@ jobs:
           cd ..
           cd ..
       
-        
+    - name: Upgrade aqtinstall
+      run: |
+          pip install --upgrade aqtinstall
+      shell: cmd
+      
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v2
+      with:
+        version: '5.15.2'
+        host: 'windows'
+        target: 'desktop'
+        arch: 'win32_mingw81'
+        install-deps: 'true'
+        setup-python: 'true'
+        cached: 'false'
     - name: Configure test project on windows
       env:
         QT_VERSION: '5.15.2'

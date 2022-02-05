@@ -27,29 +27,22 @@ jobs:
           make
           perl
         location: C:\msys2
-    - name: '🚧 Build OpenSSL'
-      shell: msys2 {0}
-      run: |
-        cd openssl
-        tar xzf openssl-1.1.1m.tar.gz
-        cd openssl-1.1.1m
-        echo "run configure"
-        export PATH="/c/msys2/msys64/mingw32/bin:$PATH"
-        echo "run ls"
-        ls /c/msys2/msys64/mingw32/bin
-        echo "which gcc: "
-        which gcc
-        perl ./Configure --prefix=$PWD/dist no-idea no-mdc2 no-rc5 shared mingw
-        make depend
-        echo "run make"
-        make
-    - name: Build OpenSSL
-      shell: bash
-      run: |
-          dir
-          cd ..
-          cd ..
-      
+    #- name: '🚧 Build OpenSSL'
+      #shell: msys2 {0}
+      #run: |
+        #cd openssl
+        #tar xzf openssl-1.1.1m.tar.gz
+        #cd openssl-1.1.1m
+        #echo "run configure"
+        #export PATH="/c/msys2/msys64/mingw32/bin:$PATH"
+        #echo "run ls"
+        #ls /c/msys2/msys64/mingw32/bin
+        #echo "which gcc: "
+        #which gcc
+        #perl ./Configure --prefix=$PWD/dist no-idea no-mdc2 no-rc5 shared mingw
+        #make depend
+        #echo "run make"
+        #make
     - name: Upgrade aqtinstall
       run: |
           pip install --upgrade aqtinstall
@@ -65,6 +58,16 @@ jobs:
         install-deps: 'true'
         setup-python: 'true'
         cached: 'false'
+    - name: Copy OpenSSL
+      shell: msys2 {0}
+      run: |
+          echo "ls1"
+          ls /c
+          echo "ls2"
+          ls /c/qt
+          echo "ls3"
+          ls /c/qt/5.15.2
+          cp /c/msys2/msys64/mingw32/bin/libssl-1_1.dll /c/msys2/msys64/mingw32/bin/libcrypto-1_1.dll /c/qt/5.15.2
     - name: Configure test project on windows
       env:
         QT_VERSION: '5.15.2'

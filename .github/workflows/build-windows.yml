@@ -28,11 +28,17 @@ jobs:
         install-deps: 'true'
         setup-python: 'true'
         cached: 'false'
-        
+    - name: Download the file
+      uses: suisei-cn/actions-download-file@v1
+      id: downloadfile  # Remember to give an ID if you need the output filename
+      with:
+        url: "https://www.openssl.org/source/openssl-1.1.1m.tar.gz"
+        target: openssl/
     - name: Build OpenSSL
       run: |
-          mkdir openssl
+          mkdir -p openssl
           cd openssl
+          dir
           
           wget https://www.openssl.org/source/openssl-1.1.1m.tar.gz
           tar xzvf openssl-1.1.1m.tar.gz

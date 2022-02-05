@@ -47,6 +47,7 @@ jobs:
       run: |
         cd openssl
         tar xzvf openssl-1.1.1m.tar.gz
+        cd openssl-1.1.1m
         echo "run configure"
         perl ./Configure --banner=Configured no-makedepend mingw
         make depend

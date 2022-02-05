@@ -41,8 +41,14 @@ jobs:
           
           tar xzvf openssl-1.1.1m.tar.gz
           cd openssl-1.1.1m
+          echo "run configure"
           ./Configure --prefix=$PWD/dist no-idea no-mdc2 no-rc5 shared mingw
-          make depend && make
+          echo "where gcc"
+          where gcc
+          echo "run make depend"
+          make depend
+          echo "run make"
+          make
           
           cd ..
           cd ..

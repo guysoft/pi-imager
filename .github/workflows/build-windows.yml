@@ -35,6 +35,8 @@ jobs:
         cd openssl-1.1.1m
         echo "run configure"
         export PATH="/c/msys2/mingw32/bin:$PATH"
+        echo "run ls"
+        ls /c/msys2
         echo "which gcc: "
         which gcc
         perl ./Configure --prefix=$PWD/dist no-idea no-mdc2 no-rc5 shared mingw

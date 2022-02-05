@@ -38,6 +38,7 @@ jobs:
       uses: shogo82148/actions-setup-perl@v1
       with:
         perl-version: '5.34'
+        distribution: strawberry
         install-modules-with: cpanm
         install-modules-args: --with-develop --with-configure
           
@@ -50,7 +51,7 @@ jobs:
           tar xzvf openssl-1.1.1m.tar.gz
           cd openssl-1.1.1m
           echo "run configure"
-          perl ./Configure --prefix=$PWD/dist no-idea no-mdc2 no-rc5 shared mingw
+          perl ./Configure --banner=Configured no-makedepend mingw
           perl configdata.pm --dump
           echo "where gcc"
           where gcc

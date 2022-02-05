@@ -34,13 +34,13 @@ jobs:
       with:
         url: "https://www.openssl.org/source/openssl-1.1.1m.tar.gz"
         target: openssl/
-    - name: install perl
-      uses: shogo82148/actions-setup-perl@v1
+    - name: install msys2
+      uses: msys2/setup-msys2@v2
+      location: C:\msys2
+      
       with:
-        perl-version: '5.32'
-        distribution: strawberry
-        install-modules-with: cpanm
-        install-modules-args: --with-develop --with-configure
+        msystem: mingw32
+        install: mingw-w64-i686-openssl
           
     - name: Build OpenSSL
       shell: bash

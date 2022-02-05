@@ -34,9 +34,9 @@ jobs:
         tar xzf openssl-1.1.1m.tar.gz
         cd openssl-1.1.1m
         echo "run configure"
-        export PATH="/c/msys2/mingw32/bin:$PATH"
+        export PATH="/c/msys2/msys64/mingw32/bin:$PATH"
         echo "run ls"
-        ls /c/msys2/msys64
+        ls /c/msys2/msys64/mingw32/bin
         echo "which gcc: "
         which gcc
         perl ./Configure --prefix=$PWD/dist no-idea no-mdc2 no-rc5 shared mingw

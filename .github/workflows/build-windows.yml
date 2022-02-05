@@ -28,7 +28,21 @@ jobs:
         install-deps: 'true'
         setup-python: 'true'
         cached: 'false'
-        tools: 'tools_openssl_x86'
+        
+    - name: Build OpenSSL
+      run: |
+          mkdir openssl
+          cd openssl
+          
+          wget https://www.openssl.org/source/openssl-1.1.1m.tar.gz
+          tar xzvf openssl-1.1.1m.tar.gz
+          cd openssl-1.1.1m
+          ./Configure --prefix=$PWD/dist no-idea no-mdc2 no-rc5 shared mingw
+          make depend && make
+          
+          cd ..
+          cd ..
+      
         
     - name: Configure test project on windows
       env:

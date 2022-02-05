@@ -34,11 +34,12 @@ jobs:
       with:
         url: "https://www.openssl.org/source/openssl-1.1.1m.tar.gz"
         target: openssl/
-    - name: Install cpan modules
-      shell: bash
-      run: |
-          cpan CPAN::Author
-          cpan Pod::Usage
+    - name: install perl
+      uses: shogo82148/actions-setup-perl@v1
+      with:
+        perl-version: '5.34'
+        install-modules-with: cpanm
+        install-modules-args: --with-develop --with-configure
     - name: Build OpenSSL
       shell: bash
       run: |

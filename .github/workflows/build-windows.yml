@@ -26,6 +26,7 @@ jobs:
           mingw-w64-i686-openssl
           make
           perl
+          base-devel
         location: C:\msys2
     - name: '🚧 Build OpenSSL'
       shell: msys2 {0}

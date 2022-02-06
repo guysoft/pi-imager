@@ -41,9 +41,9 @@ jobs:
       shell: msys2 {0}
       # D:\a\pi-imager\Qt\5.15.2\mingw81_32\bin\
       run: |
-          echo "${GITHUB_WORKSPACE}/qt/Qt/5.12.9/win32_mingw81/bin"
-          ls "${GITHUB_WORKSPACE}/qt/Qt/5.12.9/win32_mingw81/bin"
-          cp /c/msys2/msys64/mingw32/bin/libssl-1_1.dll /c/msys2/msys64/mingw32/bin/libcrypto-1_1.dll ${GITHUB_WORKSPACE}/qt/Qt/5.12.9/win32_mingw81/bin
+          echo "${GITHUB_WORKSPACE}/qt/Qt/5.15.2/win32_mingw81/bin"
+          ls "${GITHUB_WORKSPACE}/qt/Qt/5.15.2/win32_mingw81/bin"
+          cp /c/msys2/msys64/mingw32/bin/libssl-1_1.dll /c/msys2/msys64/mingw32/bin/libcrypto-1_1.dll ${GITHUB_WORKSPACE}/qt/Qt/5.15.2/win32_mingw81/bin
     - name: Configure test project on windows
       env:
         QT_VERSION: '5.15.2'

@@ -46,7 +46,8 @@ jobs:
           echo "echo dir"
           dir "%Qt5_Dir%"
           echo "copy"
-          copy "C:\msys2\msys64\mingw32\bin\libssl-1_1.dll" "C:\msys2\msys64\mingw32\bin\libcrypto-1_1.dll" "%Qt5_Dir%\bin"
+          copy "C:\msys2\msys64\mingw32\bin\libssl-1_1.dll" "%Qt5_Dir%\bin"
+          copy "C:\msys2\msys64\mingw32\bin\libcrypto-1_1.dll" "%Qt5_Dir%\bin"
     - name: Configure test project on windows
       env:
         QT_VERSION: '5.15.2'

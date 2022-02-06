@@ -38,14 +38,11 @@ jobs:
         cached: 'false'
     - name: Copy OpenSSL
       shell: msys2 {0}
+      # D:\a\pi-imager\Qt\5.15.2\mingw81_32\bin\
       run: |
-          echo "ls1"
-          ls /c
-          echo "ls2"
-          ls /c/qt
-          echo "ls3"
-          ls /c/qt/5.15.2
-          cp /c/msys2/msys64/mingw32/bin/libssl-1_1.dll /c/msys2/msys64/mingw32/bin/libcrypto-1_1.dll /c/qt/5.15.2
+          echo "${Qt5_DIR}"
+          ls "${Qt5_DIR}"
+          cp /c/msys2/msys64/mingw32/bin/libssl-1_1.dll /c/msys2/msys64/mingw32/bin/libcrypto-1_1.dll "${Qt5_DIR}"/bin/
     - name: Configure test project on windows
       env:
         QT_VERSION: '5.15.2'

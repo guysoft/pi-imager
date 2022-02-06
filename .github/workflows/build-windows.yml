@@ -12,12 +12,6 @@ jobs:
     steps:
     - name: Checkout rpi-imager
       uses: actions/checkout@v2
-    - name: Download the file
-      uses: suisei-cn/actions-download-file@v1
-      id: downloadfile  # Remember to give an ID if you need the output filename
-      with:
-        url: "https://www.openssl.org/source/openssl-1.1.1m.tar.gz"
-        target: openssl/
     - name: install msys2
       uses: msys2/setup-msys2@v2
       with:

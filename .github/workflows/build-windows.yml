@@ -58,6 +58,7 @@ jobs:
           #IF "%QT_VERSION:~0,1%"=="5" ( dir %Qt5_DIR%\lib\cmake ) ELSE ( dir %Qt6_DIR%\lib\cmake )
           #qmake
       run: |
+          set OPENSSL_ROOT_DIR="C:\msys2\msys64\mingw32\bin"
       
           dir "C:\qt"
           

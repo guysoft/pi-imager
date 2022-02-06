@@ -64,4 +64,4 @@ jobs:
           
           mkdir build
           cd build
-          cmake ..
+          cmake -DOPENSSL_ROOT_DIR="C:\msys2\msys64\mingw32\bin" -DOPENSSL_CRYPTO_LIBRARY="C:\msys2\msys64\mingw32\bin" ..

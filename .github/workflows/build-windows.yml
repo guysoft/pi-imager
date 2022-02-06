@@ -36,13 +36,14 @@ jobs:
         install-deps: 'true'
         setup-python: 'true'
         cached: 'false'
+        dir: ${{ github.workspace }}/qt/
     - name: Copy OpenSSL
       shell: msys2 {0}
       # D:\a\pi-imager\Qt\5.15.2\mingw81_32\bin\
       run: |
-          echo "${Qt5_DIR}"
-          ls "${Qt5_DIR}"
-          cp /c/msys2/msys64/mingw32/bin/libssl-1_1.dll /c/msys2/msys64/mingw32/bin/libcrypto-1_1.dll "${Qt5_DIR}"/bin/
+          echo "${GITHUB_WORKSPACE}/qt/Qt/5.12.9/win32_mingw81/bin"
+          ls "${GITHUB_WORKSPACE}/qt/Qt/5.12.9/win32_mingw81/bin"
+          cp /c/msys2/msys64/mingw32/bin/libssl-1_1.dll /c/msys2/msys64/mingw32/bin/libcrypto-1_1.dll ${GITHUB_WORKSPACE}/qt/Qt/5.12.9/win32_mingw81/bin
     - name: Configure test project on windows
       env:
         QT_VERSION: '5.15.2'

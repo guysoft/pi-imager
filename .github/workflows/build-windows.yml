@@ -67,6 +67,7 @@ jobs:
           echo "openssl version:"
           C:\msys2\msys64\mingw32\bin\openssl version
           
+          
           mkdir build
           cd build
-          cmake -DOPENSSL_ROOT_DIR="C:\msys2\msys64\mingw32" -DOPENSSL_CRYPTO_LIBRARY="C:\msys2\msys64\mingw32\lib" -DOPENSSL_INCLUDE_DIR=C:\msys2\msys64\mingw32\include ..
+          cmake -DOPENSSL_ROOT_DIR="C:\msys2\msys64\mingw32" -DOPENSSL_CRYPTO_LIBRARY="C:\msys2\msys64\mingw32\lib" -DOPENSSL_INCLUDE_DIR=C:\msys2\msys64\mingw32\include -D_OPENSSL_VERSION=1.1.1m ..

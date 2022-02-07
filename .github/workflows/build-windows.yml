@@ -77,6 +77,9 @@ jobs:
           echo "openssl version:"
           C:\msys2\msys64\mingw32\bin\openssl version
           
+          echo " try to set path"
+          set PATH=%PATH%;C:\msys2\msys64\mingw32\bin
+          
           
           mkdir build
           cd build

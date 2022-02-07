@@ -58,10 +58,15 @@ jobs:
           #IF "%QT_VERSION:~0,1%"=="5" ( dir %Qt5_DIR%\lib\cmake ) ELSE ( dir %Qt6_DIR%\lib\cmake )
           #qmake
       run: |
-          set OPENSSL_ROOT_DIR="C:\msys2\msys64\mingw32\bin"
-      
+
           dir "C:\qt"
+          
+          echo "cmake version:"
+          cmake --version
+          
+          echo "openssl version:"
+          C:\msys2\msys64\mingw32\bin\openssl version
           
           mkdir build
           cd build
-          cmake -DOPENSSL_ROOT_DIR="C:\msys2\msys64\mingw32\bin" -DOPENSSL_CRYPTO_LIBRARY="C:\msys2\msys64\mingw32\bin" ..
+          cmake -DOPENSSL_ROOT_DIR="C:\msys2\msys64\mingw32" -DOPENSSL_CRYPTO_LIBRARY="C:\msys2\msys64\mingw32\lib" -DOPENSSL_INCLUDE_DIR=C:\msys2\msys64\mingw32\include ..

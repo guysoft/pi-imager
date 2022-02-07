@@ -61,6 +61,16 @@ jobs:
 
           dir "C:\qt"
           
+          set OPENSSL_ROOT_DIR=C:\msys2\msys64\mingw32
+          set OPENSSL_CRYPTO_LIBRARY=C:\msys2\msys64\mingw32\lib\libssl.a
+          set OPENSSL_INCLUDE_DIR=C:\msys2\msys64\mingw32\include
+          set OPENSSL_VERSION=1.1.1m
+          
+          dir "C:\msys2\msys64\mingw32"
+          echo "OpenSSL root dir:"
+          echo %OPENSSL_VERSION%
+          
+          
           echo "cmake version:"
           cmake --version
           

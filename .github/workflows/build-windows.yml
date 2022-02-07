@@ -61,12 +61,12 @@ jobs:
 
           dir "C:\qt"
           
-          set OPENSSL_ROOT_DIR=C:\msys2\msys64\mingw32
+          set OPENSSL_ROOT_DIR=C:\msys2\msys64\mingw32\ssl
           set OPENSSL_CRYPTO_LIBRARY=C:\msys2\msys64\mingw32\lib\libssl.a
           set OPENSSL_INCLUDE_DIR=C:\msys2\msys64\mingw32\include
           set OPENSSL_VERSION=1.1.1m
           
-          dir "C:\msys2\msys64\mingw32"
+          dir "C:\msys2\msys64\mingw32\ssl"
           echo "OpenSSL root dir:"
           echo %OPENSSL_VERSION%
           
@@ -83,4 +83,4 @@ jobs:
           
           mkdir build
           cd build
-          cmake -DOPENSSL_ROOT_DIR="C:\msys2\msys64\mingw32" -DOPENSSL_CRYPTO_LIBRARY="C:\msys2\msys64\mingw32\lib\libssl.a" -DOPENSSL_INCLUDE_DIR=C:\msys2\msys64\mingw32\include -DOPENSSL_VERSION=1.1.1m ..
+          cmake -DOPENSSL_ROOT_DIR="C:\msys2\msys64\mingw32\ssl" ..

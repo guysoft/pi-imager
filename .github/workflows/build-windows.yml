@@ -66,6 +66,8 @@ jobs:
           sed -i  's@message(FATAL_ERROR "Unable to locate signtool.exe used for code signing")\n    endif()@@g' CMakeLists.txt
           sed -i -e '/message(FATAL_ERROR "Unable to locate signtool.exe used for code signing")/{N;s/    endif()//}' CMakeLists.txt
           sed -i 's/message(FATAL_ERROR "Unable to locate signtool.exe used for code signing")//' CMakeLists.txt
+    - name: Install ninja-build tool
+      uses: seanmiddleditch/gha-setup-ninja@master
     - name: 🏗️ Configure and build on windows
       env:
         QT_VERSION: '5.15.2'
@@ -85,7 +87,7 @@ jobs:
           
           mkdir build
           cd build
-          cmake -GNinja ..
-          make
+          cmake -G Ninja ..
+          cmake --build build
           
           dir

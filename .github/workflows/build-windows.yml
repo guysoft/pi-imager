@@ -21,7 +21,7 @@ jobs:
           make
           perl
         location: C:\msys2
-    - name: Upgrade aqtinstall
+    - name: 🆕 Upgrade aqtinstall
       run: |
           pip install --upgrade aqtinstall
       shell: cmd
@@ -66,14 +66,10 @@ jobs:
           sed -i  's@message(FATAL_ERROR "Unable to locate signtool.exe used for code signing")\n    endif()@@g' CMakeLists.txt
           sed -i -e '/message(FATAL_ERROR "Unable to locate signtool.exe used for code signing")/{N;s/    endif()//}' CMakeLists.txt
           sed -i 's/message(FATAL_ERROR "Unable to locate signtool.exe used for code signing")//' CMakeLists.txt
+    - name: 🏗️ Configure and build on windows
       env:
         QT_VERSION: '5.15.2'
       shell: cmd
-      #run: |
-          #dir "%programfiles(x86)%\Microsoft Visual Studio\"
-          #call "%programfiles(x86)%\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars32.bat"
-          #IF "%QT_VERSION:~0,1%"=="5" ( dir %Qt5_DIR%\lib\cmake ) ELSE ( dir %Qt6_DIR%\lib\cmake )
-          #qmake
       run: |
 
           dir "C:\qt"

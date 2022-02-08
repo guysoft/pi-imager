@@ -74,12 +74,8 @@ jobs:
           
           
           echo "clean up some paths"
-          setx /M PATH "%PATH:C:\Program Files\Git\cmd;=%"
-          setx /M PATH "%PATH:C:\Program Files\Git\mingw64\bin;=%"
-          setx /M PATH "%PATH:C:\Program Files\OpenSSL\bin;=%"
-          setx /M PATH "%PATH:C:\Program Files\CMake\bin;=%"
-          setx /M PATH "%PATH:C:\Program Files\Git\usr\bin;=%"
-          setx /M PATH "%PATH:D:\a\_temp\setup-msys2;=%"
+          
+          set PATH=D:/a/pi-imager/pi-imager/qt/Qt/5.15.2/mingw81_32/bin
           
           echo "current path":
           echo %path%

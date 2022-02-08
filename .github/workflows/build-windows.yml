@@ -25,17 +25,6 @@ jobs:
       run: |
           pip install --upgrade aqtinstall
       shell: cmd
-    - name: Copy OpenSSL
-      # shell: msys2 {0}
-      shell: cmd
-      # D:\a\pi-imager\Qt\5.15.2\mingw81_32\bin\
-      run: |
-          echo %Qt5_Dir%
-          echo "echo dir"
-          dir "%Qt5_Dir%"
-          echo "copy"
-          copy "C:\msys2\msys64\mingw32\bin\libssl-1_1.dll" "%Qt5_Dir%\bin\"
-          copy "C:\msys2\msys64\mingw32\bin\libcrypto-1_1.dll" "%Qt5_Dir%\bin\"
     - name: 🩹 Patch CMakeLists.txt
       shell: msys2 {0}
       run: |

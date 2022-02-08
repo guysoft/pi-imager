@@ -76,7 +76,7 @@ jobs:
           
           echo "clean up some paths"
           
-          set PATH=D:\a\pi-imager\pi-imager\qt\Qt\5.15.2\mingw81_32\bin;D:\a\pi-imager\pi-imager\qt\Qt\Tools\CMake_64\bin;D:\a\pi-imager\pi-imager\ninja-build;D:\a\pi-imager\pi-imager\qt\Qt\Tools;D:\a\pi-imager\pi-imager\qt\Qt\Tools\mingw810_32\bin
+          set PATH=D:\a\pi-imager\pi-imager\qt\Qt\5.15.2\mingw81_32\bin;D:\a\pi-imager\pi-imager\qt\Qt\Tools\CMake_64\bin;D:\a\pi-imager\pi-imager\ninja-build;D:\a\pi-imager\pi-imager\qt\Qt\Tools;D:\a\pi-imager\pi-imager\qt\Qt\Tools\mingw810_32\bin;C:\Windows\system32
           
           echo "current path":
           echo %path%
@@ -93,3 +93,9 @@ jobs:
           cmake --build .
           
           dir
+          
+          echo "::set-output name=windows::${{ github.workspace }}/pi-imager/pi-imager/build/deploy
+    - uses: actions/upload-artifact@v1
+      with:
+        name: ${{ steps.copy.outputs.windows }}
+        path: ${{ steps.copy.outputs.windows }}

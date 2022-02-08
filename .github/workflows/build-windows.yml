@@ -70,19 +70,19 @@ jobs:
           
           dir "C:\msys2\msys64\mingw32"
           
-          echo "cmake version:"
-          cmake --version
-          
           echo "openssl version:"
           C:\msys2\msys64\mingw32\bin\openssl version
           
           
           echo "clean up some paths"
           
-          set PATH=D:\a\pi-imager\pi-imager\qt\Qt\5.15.2\mingw81_32\bin;D:\a\pi-imager\pi-imager\ninja-build;D:\a\pi-imager\pi-imager\qt\Qt\Tools
+          set PATH=D:\a\pi-imager\pi-imager\qt\Qt\5.15.2\mingw81_32\bin;D:\a\pi-imager\pi-imager\qt\Qt\Tools\CMake_64\bin;D:\a\pi-imager\pi-imager\ninja-build;D:\a\pi-imager\pi-imager\qt\Qt\Tools
           
           echo "current path":
           echo %path%
+          
+          echo "cmake version:"
+          cmake --version
 
           
           echo "Let's build"

@@ -86,6 +86,6 @@ jobs:
           mkdir build
           cd build
           cmake ..
-          make
+          cmake --build . --target all
           
           dir

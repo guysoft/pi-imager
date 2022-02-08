@@ -48,7 +48,24 @@ jobs:
           echo "copy"
           copy "C:\msys2\msys64\mingw32\bin\libssl-1_1.dll" "%Qt5_Dir%\bin\"
           copy "C:\msys2\msys64\mingw32\bin\libcrypto-1_1.dll" "%Qt5_Dir%\bin\"
-    - name: Configure test project on windows
+    - name: 🩹 Patch CMakeLists.txt
+      shell: msys2 {0}
+      run: |
+          echo "Adding inlcude lines and lib lines on our own"
+          sed -n -i 'p;290a set(OPENSSL_INCLUDE_DIR "C:/msys2/msys64/mingw32/include")' CMakeLists.txt
+          
+          echo "Adding inlcude lines and lib lines on our own"
+          sed -n -i 'p;290a set(OPENSSL_LIBRARIES "C:/msys2/msys64/mingw32/lib/libssl.a" "C:/msys2/msys64/mingw32/lib/libcrypto.a")' CMakeLists.txt
+          
+          echo "Patching remove openssl find"
+          sed -i 's/find_package(OpenSSL REQUIRED)//g' CMakeLists.txt
+          
+          echo "Remove signtool"
+          sed -i  's@find_program(SIGNTOOL "signtool.exe" PATHS "c:/Program Files (x86)/Microsoft SDKs/ClickOnce/SignTool")@@g' CMakeLists.txt
+          sed -i  's@if (NOT SIGNTOOL)@@g' CMakeLists.txt
+          sed -i  's@message(FATAL_ERROR "Unable to locate signtool.exe used for code signing")\n    endif()@@g' CMakeLists.txt
+          sed -i -e '/message(FATAL_ERROR "Unable to locate signtool.exe used for code signing")/{N;s/    endif()//}' CMakeLists.txt
+          sed -i 's/message(FATAL_ERROR "Unable to locate signtool.exe used for code signing")//' CMakeLists.txt
       env:
         QT_VERSION: '5.15.2'
       shell: cmd
@@ -61,11 +78,6 @@ jobs:
 
           dir "C:\qt"
           
-          set OPENSSL_ROOT_DIR=C:/msys2/msys64/mingw32
-          set OPENSSL_CRYPTO_LIBRARY=C:/msys2/msys64/mingw32/lib/libcrypto.a
-          set OPENSSL_INCLUDE_DIR=C:/msys2/msys64/mingw32/include
-          set OPENSSL_VERSION=1.1.1m
-          
           dir "C:\msys2\msys64\mingw32"
           echo "OpenSSL root dir:"
           echo %OPENSSL_VERSION%
@@ -77,10 +89,9 @@ jobs:
           echo "openssl version:"
           C:\msys2\msys64\mingw32\bin\openssl version
           
-          echo " try to set path"
-          set PATH=%PATH%;C:\msys2\msys64\mingw32\bin
-          
           
           mkdir build
           cd build
-          cmake -DOPENSSL_ROOT_DIR="C:/msys2/msys64/mingw32" -DOPENSSL_CRYPTO_LIBRARY="C:/msys2/msys64/mingw32/lib/libcrypto.a" -DOPENSSL_INCLUDE_DIR=C:/msys2/msys64/mingw32/include -DOPENSSL_VERSION=1.1.1m ..
+          cmake ..
+          
+          dir

@@ -25,18 +25,6 @@ jobs:
       run: |
           pip install --upgrade aqtinstall
       shell: cmd
-      
-    - name: Install Qt
-      uses: jurplel/install-qt-action@v2
-      with:
-        version: '5.15.2'
-        host: 'windows'
-        target: 'desktop'
-        arch: 'win32_mingw81'
-        install-deps: 'true'
-        setup-python: 'true'
-        cached: 'false'
-        dir: ${{ github.workspace }}/qt/
     - name: Copy OpenSSL
       # shell: msys2 {0}
       shell: cmd
@@ -68,6 +56,17 @@ jobs:
           sed -i 's/message(FATAL_ERROR "Unable to locate signtool.exe used for code signing")//' CMakeLists.txt
     - name: Install ninja-build tool
       uses: seanmiddleditch/gha-setup-ninja@master
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v2
+      with:
+        version: '5.15.2'
+        host: 'windows'
+        target: 'desktop'
+        arch: 'win32_mingw81'
+        install-deps: 'true'
+        setup-python: 'true'
+        cached: 'false'
+        dir: ${{ github.workspace }}/qt/
     - name: 🏗️ Configure and build on windows
       env:
         QT_VERSION: '5.15.2'

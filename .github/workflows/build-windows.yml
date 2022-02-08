@@ -52,7 +52,7 @@ jobs:
         host: 'windows'
         target: 'desktop'
         arch: 'win32_mingw81'
-        tools: 'qt.tools.cmake.win64'
+        tools: 'tools_cmake,3.21.1,qt.tools.cmake.win64'
         install-deps: 'true'
         setup-python: 'true'
         cached: 'false'

@@ -52,6 +52,7 @@ jobs:
         host: 'windows'
         target: 'desktop'
         arch: 'win32_mingw81'
+        tools: 'tools_cmake'
         install-deps: 'true'
         setup-python: 'true'
         cached: 'false'
@@ -62,7 +63,10 @@ jobs:
       shell: cmd
       run: |
 
-          dir "C:\qt"
+          dir "D:\a\pi-imager\pi-imager\qt\Qt"
+          
+          echo "tools"
+          dir "D:\a\pi-imager\pi-imager\qt\Qt\Tools"
           
           dir "C:\msys2\msys64\mingw32"
           
@@ -75,7 +79,7 @@ jobs:
           
           echo "clean up some paths"
           
-          set PATH=D:/a/pi-imager/pi-imager/qt/Qt/5.15.2/mingw81_32/bin;D:\a\pi-imager\pi-imager\ninja-build
+          set PATH=D:\a\pi-imager\pi-imager\qt\Qt\5.15.2\mingw81_32\bin;D:\a\pi-imager\pi-imager\ninja-build;D:\a\pi-imager\pi-imager\qt\Qt\Tools
           
           echo "current path":
           echo %path%

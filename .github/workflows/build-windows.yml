@@ -75,7 +75,7 @@ jobs:
           
           echo "clean up some paths"
           
-          set PATH=D:/a/pi-imager/pi-imager/qt/Qt/5.15.2/mingw81_32/bin
+          set PATH=D:/a/pi-imager/pi-imager/qt/Qt/5.15.2/mingw81_32/bin;D:\a\pi-imager\pi-imager\ninja-build
           
           echo "current path":
           echo %path%

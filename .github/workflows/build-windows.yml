@@ -75,9 +75,6 @@ jobs:
           dir "C:\qt"
           
           dir "C:\msys2\msys64\mingw32"
-          echo "OpenSSL root dir:"
-          echo %OPENSSL_VERSION%
-          
           
           echo "cmake version:"
           cmake --version
@@ -89,5 +86,6 @@ jobs:
           mkdir build
           cd build
           cmake ..
+          make
           
           dir

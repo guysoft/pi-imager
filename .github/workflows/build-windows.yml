@@ -94,8 +94,7 @@ jobs:
           
           dir
           
-          echo "::set-output name=windows::${{ github.workspace }}/pi-imager/pi-imager/build/deploy
     - uses: actions/upload-artifact@v1
       with:
-        name: ${{ steps.copy.outputs.windows }}
-        path: ${{ steps.copy.outputs.windows }}
+        name: pi-imager-windows
+        path: ${{ github.workspace }}\build\deploy

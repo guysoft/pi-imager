@@ -85,6 +85,11 @@ jobs:
           C:\msys2\msys64\mingw32\bin\openssl version
           
           
+          echo "current path":
+          echo %path%
+          
+          echo "Let's build"
+          
           mkdir build
           cd build
           cmake -G Ninja ..

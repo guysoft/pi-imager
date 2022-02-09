@@ -1,0 +1,54 @@
+name: Build Mac
+
+on:
+  repository_dispatch:
+  push:
+  # schedule: 
+  #   - cron: '0 0 * * *'
+
+jobs:
+  build:
+    runs-on: 'macos-latest'
+    steps:
+    - name: Checkout rpi-imager
+      uses: actions/checkout@v2
+    - name: 🆕 Upgrade aqtinstall
+      run: |
+          pip install --upgrade aqtinstall
+      shell: cmd
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v2
+      with:
+        version: '5.15.2'
+        host: 'mac'
+        target: 'desktop'
+        # Tools format is name,version,variant tools are listed here: https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/
+        tools: 'tools_cmake,3.21.1,qt.tools.cmake.win64 tools_mingw,8.1.0,qt.tools.win32_mingw810 tools_ninja,1.10.2,qt.tools.ninja'
+        install-deps: 'true'
+        setup-python: 'true'
+        cached: 'false'
+        dir: ${{ github.workspace }}/qt/
+    - name: 🏗️ Configure and build on mac
+      env:
+        QT_VERSION: '5.15.2'
+      run: |          
+          echo "current path":
+          echo ${PATH}
+          
+          echo "cmake version:"
+          cmake --version
+
+          
+          echo "Let's build"
+          
+          mkdir build
+          cd build
+          cmake -G Ninja ..
+          cmake --build .
+          
+          dir
+          
+    - uses: actions/upload-artifact@v1
+      with:
+        name: pi-imager-mac
+        path: ${{ github.workspace }}\build\deploy

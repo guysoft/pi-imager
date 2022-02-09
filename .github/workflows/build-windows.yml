@@ -43,8 +43,6 @@ jobs:
           sed -i  's@message(FATAL_ERROR "Unable to locate signtool.exe used for code signing")\n    endif()@@g' CMakeLists.txt
           sed -i -e '/message(FATAL_ERROR "Unable to locate signtool.exe used for code signing")/{N;s/    endif()//}' CMakeLists.txt
           sed -i 's/message(FATAL_ERROR "Unable to locate signtool.exe used for code signing")//' CMakeLists.txt
-    - name: Install ninja-build tool
-      uses: seanmiddleditch/gha-setup-ninja@master
     - name: Install Qt
       uses: jurplel/install-qt-action@v2
       with:
@@ -52,7 +50,8 @@ jobs:
         host: 'windows'
         target: 'desktop'
         arch: 'win32_mingw81'
-        tools: 'tools_cmake,3.21.1,qt.tools.cmake.win64 tools_mingw,8.1.0,qt.tools.win32_mingw810'
+        # Tools format is name,version,variant tools are listed here: https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/
+        tools: 'tools_cmake,3.21.1,qt.tools.cmake.win64 tools_mingw,8.1.0,qt.tools.win32_mingw810 tools_ninja,1.10.2,qt.tools.ninja'
         install-deps: 'true'
         setup-python: 'true'
         cached: 'false'
@@ -76,7 +75,7 @@ jobs:
           
           echo "clean up some paths"
           
-          set PATH=D:\a\pi-imager\pi-imager\qt\Qt\5.15.2\mingw81_32\bin;D:\a\pi-imager\pi-imager\qt\Qt\Tools\CMake_64\bin;D:\a\pi-imager\pi-imager\ninja-build;D:\a\pi-imager\pi-imager\qt\Qt\Tools;D:\a\pi-imager\pi-imager\qt\Qt\Tools\mingw810_32\bin;C:\Windows\system32
+          set PATH=D:\a\pi-imager\pi-imager\qt\Qt\5.15.2\mingw81_32\bin;D:\a\pi-imager\pi-imager\qt\Qt\Tools\CMake_64\bin;D:\a\pi-imager\pi-imager\qt\Qt\Tools;D:\a\pi-imager\pi-imager\qt\Qt\Tools\mingw810_32\bin;C:\Windows\system32
           
           echo "current path":
           echo %path%

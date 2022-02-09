@@ -3,7 +3,7 @@
 
 /*
  * SPDX-License-Identifier: Apache-2.0
- * Copyright (C) 2020 Raspberry Pi (Trading) Limited
+ * Copyright (C) 2020 Raspberry Pi Ltd
  */
 
 
@@ -11,7 +11,7 @@
 #define OSLIST_URL                        "https://guysoft.github.io/pi-imager-web/os_list_imagingutility_v2.json"
 
 /* Time synchronization URL (only used on eglfs QPA platform, URL must be HTTP) */
-#define TIME_URL                          "http://downloads.raspberrypi.org/os_list_imagingutility_v2.json?time_synchronization"
+#define TIME_URL                          "http://downloads.raspberrypi.org/os_list_imagingutility_v3.json?time_synchronization"
 
 /* Phone home the name of images downloaded for image popularity ranking */
 #define TELEMETRY_URL                     "https://rpi-imager-stats.raspberrypi.com/downloads"

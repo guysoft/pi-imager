@@ -1,0 +1,41 @@
+name: Build Image
+
+on:
+  repository_dispatch:
+  push:
+  # schedule: 
+  #   - cron: '0 0 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install Dependencies
+      run: |
+        sudo apt update
+        sudo apt install --no-install-recommends build-essential devscripts debhelper cmake git libarchive-dev libcurl4-openssl-dev qtbase5-dev qtbase5-dev-tools qtdeclarative5-dev libqt5svg5-dev qttools5-dev libssl-dev qml-module-qtquick2 qml-module-qtquick-controls2 qml-module-qtquick-layouts qml-module-qtquick-templates2 qml-module-qtquick-window2 qml-module-qtgraphicaleffects
+
+    - name: Checkout rpi-imager
+      uses: actions/checkout@v2
+
+    - name: Build
+      run: |
+        debuild -uc -us
+
+    - name: Copy output
+      id: copy
+      run: |
+        # NOW=$(date +"%Y-%m-%d-%H%M")
+        # LATEST=$NOW-rpi-imager-$DIST_VERSION
+        mv ../*.deb .
+
+        # cp repository/src/workspace/*.img $IMAGE.img
+        DEB_PATH=$(ls rpi-imager*.deb | head -n 1)
+
+        echo "::set-output name=image::$DEB_PATH"
+
+    # artifact upload will take care of zipping for us
+    - uses: actions/upload-artifact@v1
+      with:
+        name: ${{ steps.copy.outputs.image }}
+        path: ${{ steps.copy.outputs.image }}

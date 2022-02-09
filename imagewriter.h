@@ -3,7 +3,7 @@
 
 /*
  * SPDX-License-Identifier: Apache-2.0
- * Copyright (C) 2020 Raspberry Pi (Trading) Limited
+ * Copyright (C) 2020 Raspberry Pi Ltd
  */
 
 #include <QObject>
@@ -156,7 +156,7 @@ protected slots:
 
 protected:
     QUrl _src, _repo;
-    QString _dst, _cacheFileName, _parentCategory, _osName, _currentLang, _currentKeyboard;
+    QString _dst, _cacheFileName, _parentCategory, _osName, _currentLang, _currentLangcode, _currentKeyboard;
     QByteArray _expectedHash, _cachedFileHash, _cmdline, _config, _firstrun, _cloudinit, _cloudinitNetwork, _initFormat;
     quint64 _downloadLen, _extrLen, _devLen, _dlnow, _verifynow;
     DriveListModel _drivelist;

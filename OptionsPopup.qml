@@ -1,12 +1,13 @@
 /*
  * SPDX-License-Identifier: Apache-2.0
- * Copyright (C) 2021 Raspberry Pi (Trading) Limited
+ * Copyright (C) 2021 Raspberry Pi Ltd
  */
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.0
 import QtQuick.Controls.Material 2.2
+import "qmlcomponents"
 
 Popup {
     id: popup
@@ -112,12 +113,12 @@ Popup {
                 ColumnLayout {
                     spacing: -10
 
-                    CheckBox {
+                    ImCheckBox {
                         id: chkOverscan
                         text: qsTr("Disable overscan")
                     }
                     RowLayout {
-                        CheckBox {
+                        ImCheckBox {
                             id: chkHostname
                             text: qsTr("Set hostname:")
                             onCheckedChanged: {
@@ -136,7 +137,7 @@ Popup {
                             color: chkHostname.checked ? "black" : "grey"
                         }
                     }
-                    CheckBox {
+                    ImCheckBox {
                         id: chkSSH
                         text: qsTr("Enable SSH")
                         onCheckedChanged: {
@@ -144,8 +145,11 @@ Popup {
                                 if (!radioPasswordAuthentication.checked && !radioPubKeyAuthentication.checked) {
                                     radioPasswordAuthentication.checked = true
                                 }
-                                if (radioPasswordAuthentication.checked && !fieldUserPassword.length) {
-                                    fieldUserPassword.forceActiveFocus()
+                                if (radioPasswordAuthentication.checked) {
+                                    chkSetUser.checked = true
+                                    if (!fieldUserPassword.length) {
+                                        fieldUserPassword.forceActiveFocus()
+                                    }
                                 }
                             }
                         }
@@ -155,7 +159,7 @@ Popup {
                         Layout.leftMargin: 40
                         spacing: -10
 
-                        RadioButton {
+                        ImRadioButton {
                             id: radioPasswordAuthentication
                             text: qsTr("Use password authentication")
                             onCheckedChanged: {
@@ -165,7 +169,7 @@ Popup {
                                 }
                             }
                         }
-                        RadioButton {
+                        ImRadioButton {
                             id: radioPubKeyAuthentication
                             text: qsTr("Allow public-key authentication only")
                             onCheckedChanged: {
@@ -192,7 +196,7 @@ Popup {
                         }
                     }
 
-                    CheckBox {
+                    ImCheckBox {
                         id: chkSetUser
                         text: qsTr("Set username and password")
                         onCheckedChanged: {
@@ -253,7 +257,7 @@ Popup {
                         }
                     }
 
-                    CheckBox {
+                    ImCheckBox {
                         id: chkWifi
                         text: qsTr("Configure wifi")
                         onCheckedChanged: {
@@ -286,7 +290,7 @@ Popup {
                             }
                         }
 
-                        CheckBox {
+                        ImCheckBox {
                             id: chkWifiSSIDHidden
                             Layout.columnSpan: 2
                             text: qsTr("Hidden SSID")
@@ -307,7 +311,7 @@ Popup {
                             }
                         }
 
-                        CheckBox {
+                        ImCheckBox {
                             id: chkShowPassword
                             Layout.columnSpan: 2
                             text: qsTr("Show password")
@@ -324,7 +328,7 @@ Popup {
                         }
                     }
 
-                    CheckBox {
+                    ImCheckBox {
                         id: chkLocale
                         text: qsTr("Set locale settings")
                     }
@@ -354,7 +358,7 @@ Popup {
                             editable: true
                             Layout.minimumWidth: 200
                         }
-                        CheckBox {
+                        ImCheckBox {
                             id: chkSkipFirstUse
                             text: qsTr("Skip first-run wizard")
                         }
@@ -369,15 +373,15 @@ Popup {
                 ColumnLayout {
                     spacing: -10
 
-                    CheckBox {
+                    ImCheckBox {
                         id: chkBeep
                         text: qsTr("Play sound when finished")
                     }
-                    CheckBox {
+                    ImCheckBox {
                         id: chkEject
                         text: qsTr("Eject media when finished")
                     }
-                    CheckBox {
+                    ImCheckBox {
                         id: chkTelemtry
                         text: qsTr("Enable telemetry")
                     }
@@ -391,16 +395,16 @@ Popup {
             Layout.bottomMargin: 10
             spacing: 20
 
-            Button {
+            ImButton {
                 text: qsTr("SAVE")
                 onClicked: {
-                    if (chkSSH.checked && radioPasswordAuthentication.checked && fieldUserPassword.text.length == 0)
+                    if (chkSetUser.checked && fieldUserPassword.text.length == 0)
                     {
                         fieldUserPassword.indicateError = true
                         fieldUserPassword.forceActiveFocus()
                         return
                     }
-                    if (chkSSH.checked && fieldUserName.text.length == 0)
+                    if (chkSetUser.checked && fieldUserName.text.length == 0)
                     {
                         fieldUserName.indicateError = true
                         fieldUserName.forceActiveFocus()
@@ -429,10 +433,8 @@ Popup {
                     saveSettings()
                     popup.close()
                 }
-                Material.foreground: "#ffffff"
+                Material.foreground: activeFocus ? "#d1dcfb" : "#ffffff"
                 Material.background: "#c51a4a"
-                font.family: roboto.name
-                Accessible.onPressAction: clicked()
             }
 
             Text { text: " " }
@@ -463,9 +465,13 @@ Popup {
         if ('sshUserPassword' in settings) {
             fieldUserPassword.text = settings.sshUserPassword
             fieldUserPassword.alreadyCrypted = true
-            chkSSH.checked = true
-            radioPasswordAuthentication.checked = true
             chkSetUser.checked = true
+            /* Older imager versions did not have a sshEnabled setting.
+               Assume it is true if it does not exists and sshUserPassword is set */
+            if (!('sshEnabled' in settings) || settings.sshEnabled === "true" || settings.sshEnabled === true) {
+                chkSSH.checked = true
+                radioPasswordAuthentication.checked = true
+            }
         }
         if ('sshUserName' in settings) {
             fieldUserName.text = settings.sshUserName
@@ -478,7 +484,9 @@ Popup {
         }
         if ('wifiSSID' in settings) {
             fieldWifiSSID.text = settings.wifiSSID
-            chkWifiSSIDHidden.checked = settings.wifiSSIDHidden
+            if ('wifiSSIDHidden' in settings && settings.wifiSSIDHidden) {
+                chkWifiSSIDHidden.checked = true
+            }
             chkShowPassword.checked = false
             fieldWifiPassword.text = settings.wifiPassword
             fieldWifiCountry.currentIndex = fieldWifiCountry.find(settings.wifiCountry)
@@ -549,6 +557,7 @@ Popup {
         }
 
         open()
+        popupbody.forceActiveFocus()
     }
 
     function addCmdline(s) {
@@ -618,10 +627,9 @@ Popup {
             addCloudInit("  groups: users,adm,dialout,audio,netdev,video,plugdev,cdrom,games,input,gpio,spi,i2c,render,sudo")
             addCloudInit("  shell: /bin/bash")
 
+            var cryptedPassword;
             if (chkSetUser.checked) {
-                var cryptedPassword = fieldUserPassword.alreadyCrypted ? fieldUserPassword.text : imageWriter.crypt(fieldUserPassword.text)
-                addFirstRun("echo \"$FIRSTUSER:\""+escapeshellarg(cryptedPassword)+" | chpasswd -e")
-
+                cryptedPassword = fieldUserPassword.alreadyCrypted ? fieldUserPassword.text : imageWriter.crypt(fieldUserPassword.text)
                 addCloudInit("  lock_passwd: false")
                 addCloudInit("  passwd: "+cryptedPassword)
             }
@@ -654,20 +662,28 @@ Popup {
                 addCloudInit("ssh_pwauth: true")
             }
 
-            /* Rename first ("pi") user if a different desired username was specified */
-            addFirstRun("if [ \"$FIRSTUSER\" != \""+fieldUserName.text+"\" ]; then")
-            addFirstRun("   usermod -l \""+fieldUserName.text+"\" \"$FIRSTUSER\"")
-            addFirstRun("   usermod -m -d \"/home/"+fieldUserName.text+"\" \""+fieldUserName.text+"\"")
-            addFirstRun("   if grep -q \"^autologin-user=\" /etc/lightdm/lightdm.conf ; then")
-            addFirstRun("      sed /etc/lightdm/lightdm.conf -i -e \"s/^autologin-user=.*/autologin-user="+fieldUserName.text+"/\"")
-            addFirstRun("   fi")
-            addFirstRun("   if [ -f /etc/systemd/system/getty@tty1.service.d/autologin.conf ]; then")
-            addFirstRun("      sed /etc/systemd/system/getty@tty1.service.d/autologin.conf -i -e \"s/$FIRSTUSER/"+fieldUserName.text+"/\"")
-            addFirstRun("   fi")
-            addFirstRun("   if [ -f /etc/sudoers.d/010_pi-nopasswd ]; then")
-            addFirstRun("      sed -i \"s/^$FIRSTUSER /"+fieldUserName.text+" /\" /etc/sudoers.d/010_pi-nopasswd")
-            addFirstRun("   fi")
-            addFirstRun("fi")
+            if (chkSetUser.checked) {
+                /* Rename first ("pi") user if a different desired username was specified */
+                addFirstRun("if [ -f /usr/lib/userconf-pi/userconf ]; then")
+                addFirstRun("   /usr/lib/userconf-pi/userconf "+escapeshellarg(fieldUserName.text)+" "+escapeshellarg(cryptedPassword))
+                addFirstRun("else")
+                addFirstRun("   echo \"$FIRSTUSER:\""+escapeshellarg(cryptedPassword)+" | chpasswd -e")
+                addFirstRun("   if [ \"$FIRSTUSER\" != \""+fieldUserName.text+"\" ]; then")
+                addFirstRun("      usermod -l \""+fieldUserName.text+"\" \"$FIRSTUSER\"")
+                addFirstRun("      usermod -m -d \"/home/"+fieldUserName.text+"\" \""+fieldUserName.text+"\"")
+                addFirstRun("      groupmod -n \""+fieldUserName.text+"\" \"$FIRSTUSER\"")
+                addFirstRun("      if grep -q \"^autologin-user=\" /etc/lightdm/lightdm.conf ; then")
+                addFirstRun("         sed /etc/lightdm/lightdm.conf -i -e \"s/^autologin-user=.*/autologin-user="+fieldUserName.text+"/\"")
+                addFirstRun("      fi")
+                addFirstRun("      if [ -f /etc/systemd/system/getty@tty1.service.d/autologin.conf ]; then")
+                addFirstRun("         sed /etc/systemd/system/getty@tty1.service.d/autologin.conf -i -e \"s/$FIRSTUSER/"+fieldUserName.text+"/\"")
+                addFirstRun("      fi")
+                addFirstRun("      if [ -f /etc/sudoers.d/010_pi-nopasswd ]; then")
+                addFirstRun("         sed -i \"s/^$FIRSTUSER /"+fieldUserName.text+" /\" /etc/sudoers.d/010_pi-nopasswd")
+                addFirstRun("      fi")
+                addFirstRun("   fi")
+                addFirstRun("fi")
+            }
 
             if (chkSSH.checked) {
                 addFirstRun("systemctl enable ssh")
@@ -716,7 +732,7 @@ Popup {
             addCloudInitRun("sed -i 's/^\s*REGDOMAIN=\S*/REGDOMAIN="+fieldWifiCountry.editText+"/' /etc/default/crda || true")
         }
         if (chkLocale.checked) {
-            if (chkSkipFirstUse) {
+            if (chkSkipFirstUse.checked) {
                 addFirstRun("rm -f /etc/xdg/autostart/piwiz.desktop")
                 addCloudInitRun("rm -f /etc/xdg/autostart/piwiz.desktop")
             }
@@ -772,19 +788,21 @@ Popup {
             if (chkHostname.checked && fieldHostname.length) {
                 settings.hostname = fieldHostname.text
             }
-            if (chkSSH.checked) {
+            if (chkSetUser.checked) {
                 settings.sshUserName = fieldUserName.text
-                if (radioPasswordAuthentication.checked) {
-                    settings.sshUserPassword = fieldUserPassword.alreadyCrypted ? fieldUserPassword.text : imageWriter.crypt(fieldUserPassword.text)
-                }
-                if (radioPubKeyAuthentication.checked) {
-                    settings.sshAuthorizedKeys = fieldPublicKey.text
-                }
+                settings.sshUserPassword = fieldUserPassword.alreadyCrypted ? fieldUserPassword.text : imageWriter.crypt(fieldUserPassword.text)
+            }
+
+            settings.sshEnabled = chkSSH.checked
+            if (chkSSH.checked && radioPubKeyAuthentication.checked) {
+                settings.sshAuthorizedKeys = fieldPublicKey.text
             }
             if (chkWifi.checked) {
                 settings.wifiSSID = fieldWifiSSID.text
-                settings.wifiSSIDHidden = chkWifiSSIDHidden.checked
-                settings.wifiPassword = fieldWifiPassword.text
+                if (chkWifiSSIDHidden.checked) {
+                    settings.wifiSSIDHidden = true
+                }
+                settings.wifiPassword = fieldWifiPassword.text.length == 64 ? fieldWifiPassword.text : imageWriter.pbkdf2(fieldWifiPassword.text, fieldWifiSSID.text)
                 settings.wifiCountry = fieldWifiCountry.editText
             }
             if (chkLocale.checked) {

@@ -1,6 +1,12 @@
-# rpi-imager
+# pi-imager
 
-Raspberry Pi Imaging Utility
+Fork of the Raspberry Pi Imaging Utility
+
+# Why is this fork here?
+
+The idea is to have something that builds automatically and accepts rapidly new distros.
+Evreyone is welcome to suggest distros and send a PR.
+The result isn't targeted to be clean and simple like the original rpi-imager, but more of a list to browse and discover new distros. Or have RPi developers have a one stop place to download and flash custom images.
 
 - Download the latest version for Windows, macOS and Ubuntu from the [Raspberry Pi downloads page](https://www.raspberrypi.com/software/).
 - To install on Raspberry Pi OS, use `sudo apt update && sudo apt install rpi-imager`.
@@ -27,7 +33,7 @@ sudo apt install --no-install-recommends build-essential devscripts debhelper cm
 #### Get the source
 
 ```
-git clone --depth 1 https://github.com/raspberrypi/rpi-imager
+git clone --depth 1 https://github.com/guysoft/pi-imager
 ```
 
 #### Building on the Pi

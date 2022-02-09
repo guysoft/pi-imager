@@ -43,12 +43,6 @@ jobs:
           sed -i  's@message(FATAL_ERROR "Unable to locate signtool.exe used for code signing")\n    endif()@@g' CMakeLists.txt
           sed -i -e '/message(FATAL_ERROR "Unable to locate signtool.exe used for code signing")/{N;s/    endif()//}' CMakeLists.txt
           sed -i 's/message(FATAL_ERROR "Unable to locate signtool.exe used for code signing")//' CMakeLists.txt
-    - name: Copy OpenSSL Dlls
-      shell: cmd
-      run: |
-          echo "Adding inlcude lines and lib lines on our own"
-          copy  C:\msys2\msys64\mingw32\bin\libssl-1_1.dll D:\a\pi-imager\pi-imager\qt\Qt\5.15.2\mingw81_32\
-          copy  C:\msys2\msys64\mingw32\bin\libcrypto-1_1.dll D:\a\pi-imager\pi-imager\qt\Qt\5.15.2\mingw81_32\
     - name: Install Qt
       uses: jurplel/install-qt-action@v2
       with:
@@ -62,6 +56,12 @@ jobs:
         setup-python: 'true'
         cached: 'false'
         dir: ${{ github.workspace }}/qt/
+    - name: Copy OpenSSL Dlls
+      shell: cmd
+      run: |
+          echo "Adding inlcude lines and lib lines on our own"
+          copy  C:\msys2\msys64\mingw32\bin\libssl-1_1.dll D:\a\pi-imager\pi-imager\qt\Qt\5.15.2\mingw81_32\
+          copy  C:\msys2\msys64\mingw32\bin\libcrypto-1_1.dll D:\a\pi-imager\pi-imager\qt\Qt\5.15.2\mingw81_32\
     - name: 🏗️ Configure and build on windows
       env:
         QT_VERSION: '5.15.2'

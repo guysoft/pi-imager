@@ -1,4 +1,11 @@
-rpi-imager (1.6.3) unstable; urgency=medium
+rpi-imager (1.7.1) unstable; urgency=medium
+
+  * Fix advanced settings being broken if there are saved wifi
+    settings and wifiSSIDHidden is not present
+
+ -- Floris Bos <bos@je-eigen-domein.nl>  Thu, 03 Feb 2022 18:38:15 +0100
+
+rpi-imager (1.7.0) unstable; urgency=medium
 
   * Only apply advanced settings if the operating system indicates it
     supports it by "init_format": "cloudinit" | "systemd" in the
@@ -14,8 +21,14 @@ rpi-imager (1.6.3) unstable; urgency=medium
   * Add Slovenija translation
   * Adds support for zstd
   * Allow nested subitems entries
+  * Add word-wrapping to OS list (contributed by mzanetti)
+  * Update icons 
+  * Telemetry: phone back home when image from repository is written:
+    - name of image written, parent category.
+    - about the computer running Imager: OS, version, architecture,
+      locale, Imager version, Pi revision.
 
- -- Floris Bos <bos@je-eigen-domein.nl>  Sun, 23 Jan 2022 16:39:46 +0100
+ -- Floris Bos <bos@je-eigen-domein.nl>  Wed, 02 Feb 2022 19:47:17 +0100
 
 rpi-imager (1.6.2) unstable; urgency=medium
 

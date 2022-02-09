@@ -1,6 +1,6 @@
 /*
  * SPDX-License-Identifier: Apache-2.0
- * Copyright (C) 2020 Raspberry Pi (Trading) Limited
+ * Copyright (C) 2020 Raspberry Pi Ltd
  */
 
 #include "downloadextractthread.h"
@@ -54,12 +54,12 @@ DownloadExtractThread::DownloadExtractThread(const QByteArray &url, const QByteA
 
 DownloadExtractThread::~DownloadExtractThread()
 {
-    if (!_extractThread->wait(2000))
+    _cancelled = true;
+    _cancelExtract();
+    if (!_extractThread->wait(10000))
     {
         _extractThread->terminate();
     }
-    _queue.clear();
-    _cv.notify_one();
     qFreeAligned(_abuf[0]);
     qFreeAligned(_abuf[1]);
 }
@@ -105,12 +105,8 @@ void DownloadExtractThread::_cancelExtract()
     std::unique_lock<std::mutex> lock(_queueMutex);
     _queue.clear();
     _queue.push_back(QByteArray());
-
-    if (_queue.size() == 1)
-    {
-        lock.unlock();
-        _cv.notify_one();
-    }
+    lock.unlock();
+    _cv.notify_all();
 }
 
 void DownloadExtractThread::cancelDownload()

@@ -60,8 +60,8 @@ jobs:
       shell: cmd
       run: |
           echo "Adding inlcude lines and lib lines on our own"
-          copy  C:\msys2\msys64\mingw32\bin\libssl-1_1.dll D:\a\pi-imager\pi-imager\qt\Qt\5.15.2\mingw81_32\
-          copy  C:\msys2\msys64\mingw32\bin\libcrypto-1_1.dll D:\a\pi-imager\pi-imager\qt\Qt\5.15.2\mingw81_32\
+          copy  C:\msys2\msys64\mingw32\bin\libssl-1_1.dll D:\a\pi-imager\pi-imager\qt\Qt\5.15.2\mingw81_32\bin
+          copy  C:\msys2\msys64\mingw32\bin\libcrypto-1_1.dll D:\a\pi-imager\pi-imager\qt\Qt\5.15.2\mingw81_32\bin
     - name: 🏗️ Configure and build on windows
       env:
         QT_VERSION: '5.15.2'

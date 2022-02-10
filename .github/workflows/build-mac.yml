@@ -33,7 +33,11 @@ jobs:
     - name: 🏗️ Configure and build on mac
       env:
         QT_VERSION: '5.15.2'
-      run: |          
+      run: |
+          echo "qt folder"
+          ls /Users/runner/work/pi-imager/pi-imager/qt/Qt/Tools
+          
+      
           echo "current path":
           echo ${PATH}
           

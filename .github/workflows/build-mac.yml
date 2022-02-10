@@ -59,4 +59,4 @@ jobs:
     - uses: actions/upload-artifact@v1
       with:
         name: pi-imager-mac
-        path: ${{ github.workspace }}\rpi-imager.app
+        path: ${{ github.workspace }}/rpi-imager.app

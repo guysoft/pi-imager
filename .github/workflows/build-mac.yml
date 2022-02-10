@@ -54,7 +54,7 @@ jobs:
           cmake -G Ninja ..
           cmake --build .
           
-          dir
+          ls
           
     - uses: actions/upload-artifact@v1
       with:

@@ -18,7 +18,6 @@ jobs:
     - name: 🆕 Upgrade aqtinstall
       run: |
           python3 -m pip install --upgrade aqtinstall
-      shell: cmd
     - name: Install Qt
       uses: jurplel/install-qt-action@v2
       with:

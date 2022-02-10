@@ -40,6 +40,8 @@ jobs:
       
           echo "current path":
           echo ${PATH}
+          export PATH=/Users/runner/work/pi-imager/pi-imager/qt/Qt/Tools/CMake/bin:"${PATH}"
+          export PATH=/Users/runner/work/pi-imager/pi-imager/qt/Qt/Tools/Ninja:"${PATH}"
           
           echo "cmake version:"
           cmake --version

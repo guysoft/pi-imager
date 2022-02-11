@@ -74,7 +74,7 @@ jobs:
         security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k build.keychain build.keychain1
         echo F
         echo G
-        /usr/bin/codesign --force --deep -s "" ${GITHUB_WORKSPACE}/build/rpi-imager.app -v
+        /usr/bin/codesign --force --deep -s "${MACOS_CERTIFICATE_ID}" ${GITHUB_WORKSPACE}/build/rpi-imager.app -v
         echo H
         /usr/bin/codesign --verify --verbose ${GITHUB_WORKSPACE}/build/rpi-imager.app
         tar czvf ${GITHUB_WORKSPACE}/pi-imager.tar.gz -C build ${GITHUB_WORKSPACE}/build/rpi-imager.app

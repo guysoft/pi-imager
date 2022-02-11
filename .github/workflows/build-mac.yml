@@ -62,22 +62,21 @@ jobs:
         MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
       run: |
         echo ${MACOS_CERTIFICATE} | base64 --decode > certificate.p12
-        echo A
+        echo create keychain
         security create-keychain -p build.keychain build.keychain1
-        echo B
+        echo set keychain as default
         security default-keychain -s build.keychain1
-        echo C
+        echo unlock keychain
         security unlock-keychain -p build.keychain build.keychain1
-        echo D
+        echo Import certificate to keychain
         security import certificate.p12 -k build.keychain1 -P ${MACOS_CERTIFICATE_PWD} -T /usr/bin/codesign
-        echo E
+        echo Set something about set-key-partition-list
         security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k build.keychain build.keychain1
-        echo F
-        echo G
+        echo Sign app
         /usr/bin/codesign --force --deep -s "${MACOS_CERTIFICATE_ID}" ${GITHUB_WORKSPACE}/build/rpi-imager.app -v
-        echo H
+        echo verify signature of app
         /usr/bin/codesign --verify --verbose ${GITHUB_WORKSPACE}/build/rpi-imager.app
-        tar czvf ${GITHUB_WORKSPACE}/pi-imager.tar.gz -C build ${GITHUB_WORKSPACE}/build/rpi-imager.app
+        tar czvf ${GITHUB_WORKSPACE}/pi-imager.tar.gz -C ${GITHUB_WORKSPACE}/build ${GITHUB_WORKSPACE}/build/rpi-imager.app
         rm -fr *.p12
     - uses: actions/upload-artifact@v1
       with:

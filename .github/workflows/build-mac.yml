@@ -55,30 +55,30 @@ jobs:
           cmake --build .
           
           ls
-      - name: Codesign executable
-        env:
-          MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
-          MACOS_CERTIFICATE_ID: ${{ secrets.MACOS_CERTIFICATE_ID }}
-          MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
-        run: |
-          echo ${MACOS_CERTIFICATE} | base64 --decode > certificate.p12
-          echo A
-          security create-keychain -p build.keychain build.keychain1
-          echo B
-          security default-keychain -s build.keychain1
-          echo C
-          security unlock-keychain -p build.keychain build.keychain1
-          echo D
-          security import certificate.p12 -k build.keychain1 -P ${MACOS_CERTIFICATE_PWD} -T /usr/bin/codesign
-          echo E
-          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k build.keychain build.keychain1
-          echo F
-          echo G
-          /usr/bin/codesign --force --deep -s "" ${GITHUB_WORKSPACE}/build/rpi-imager.app -v
-          echo H
-          /usr/bin/codesign --verify --verbose ${GITHUB_WORKSPACE}/build/rpi-imager.app
-          tar czvf ${GITHUB_WORKSPACE}/pi-imager.tar.gz -C build ${GITHUB_WORKSPACE}/build/rpi-imager.app
-          rm -fr *.p12
+    - name: Codesign executable
+      env:
+        MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
+        MACOS_CERTIFICATE_ID: ${{ secrets.MACOS_CERTIFICATE_ID }}
+        MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
+      run: |
+        echo ${MACOS_CERTIFICATE} | base64 --decode > certificate.p12
+        echo A
+        security create-keychain -p build.keychain build.keychain1
+        echo B
+        security default-keychain -s build.keychain1
+        echo C
+        security unlock-keychain -p build.keychain build.keychain1
+        echo D
+        security import certificate.p12 -k build.keychain1 -P ${MACOS_CERTIFICATE_PWD} -T /usr/bin/codesign
+        echo E
+        security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k build.keychain build.keychain1
+        echo F
+        echo G
+        /usr/bin/codesign --force --deep -s "" ${GITHUB_WORKSPACE}/build/rpi-imager.app -v
+        echo H
+        /usr/bin/codesign --verify --verbose ${GITHUB_WORKSPACE}/build/rpi-imager.app
+        tar czvf ${GITHUB_WORKSPACE}/pi-imager.tar.gz -C build ${GITHUB_WORKSPACE}/build/rpi-imager.app
+        rm -fr *.p12
     - uses: actions/upload-artifact@v1
       with:
         name: pi-imager-mac

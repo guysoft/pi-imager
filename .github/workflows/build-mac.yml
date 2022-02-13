@@ -76,7 +76,7 @@ jobs:
         /usr/bin/codesign --force --deep -s "${MACOS_CERTIFICATE_ID}" ${GITHUB_WORKSPACE}/build/rpi-imager.app -v
         echo verify signature of app
         /usr/bin/codesign --verify --verbose ${GITHUB_WORKSPACE}/build/rpi-imager.app
-        tar czvf ${GITHUB_WORKSPACE}/pi-imager.tar.gz -C ${GITHUB_WORKSPACE}/build ${GITHUB_WORKSPACE}/build/rpi-imager.app
+        tar czvf ${GITHUB_WORKSPACE}/pi-imager.tar.gz -C ${GITHUB_WORKSPACE}/build rpi-imager.app
         rm -fr *.p12
     - uses: actions/upload-artifact@v1
       with:

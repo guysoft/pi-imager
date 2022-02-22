@@ -8,7 +8,7 @@
 
 
 /* Repository URL */
-#define OSLIST_URL                        "https://guysoft.github.io/pi-imager-web/os_list_imagingutility_v2.json"
+#define OSLIST_URL                        "https://guysoft.github.io/pi-imager-web/os_list_imagingutility_v3.json"
 
 /* Time synchronization URL (only used on eglfs QPA platform, URL must be HTTP) */
 #define TIME_URL                          "http://downloads.raspberrypi.org/os_list_imagingutility_v3.json?time_synchronization"

@@ -14,7 +14,8 @@ The result isn't targeted to be clean and simple like the original rpi-imager, b
 ## License
 
 The main code of the Imaging Utility is made available under the terms of the Apache license.
-See license.txt and files in "dependencies" folder for more information about the various open source licenses that apply to the third-party dependencies used such as Qt, libarchive, drivelist, mountutils and libcurl.
+See license.txt and files in "src/dependencies" folder for more information about the various open source licenses that apply to the third-party dependencies used such as Qt, libarchive, drivelist, mountutils and libcurl.
+For the embedded (netboot) build see also "embedded/legal-info" for more information about the extra system software included in that.
 
 ## How to rebuild
 
@@ -83,7 +84,9 @@ git clone --depth 1 https://github.com/raspberrypi/rpi-imager
 
 ```
 cd rpi-imager
-cmake .
+mkdir -p build
+cd build
+cmake ../src
 make
 sudo make install
 ```
@@ -95,7 +98,7 @@ sudo make install
 - Get the Qt online installer from: https://www.qt.io/download-open-source
 During installation, choose a Qt 5.x with Mingw32 32-bit toolchain and CMake.
 
-- If using the official Qt distribution that does NOT have schannel (Windows native SSL library) support, compile OpenSSL libraries ( https://wiki.qt.io/Compiling_OpenSSL_with_MinGW ) and copy the libssl/crypto DLLs to C:\qt\5.x\mingw73_32\bin
+- If using the official Qt distribution that does NOT have schannel (Windows native SSL library) support, compile OpenSSL libraries ( https://wiki.qt.io/Compiling_OpenSSL_with_MinGW ) and copy the libssl/crypto DLLs to C:\qt\5.x\mingw73_32\bin  the include files to C:\qt\5.x\mingw73_32\include and the import library files to C:\qt\5.x\mingw73_32\lib
 
 - For building installer get Nullsoft scriptable install system: https://nsis.sourceforge.io/Download
 
@@ -107,10 +110,10 @@ If NOT and are you only compiling for your own personal use, comment out all lin
 Building can be done manually using the command-line, using "cmake", "make", etc., but if you are not that familar with setting up a proper Windows build environment (setting paths, etc.), it is easiest to use the Qt creator GUI instead.
 
 - Download source .zip from github and extract it to a folder on disk
-- Open CMakeLists.txt in Qt creator.
+- Open src/CMakeLists.txt in Qt creator.
 - For builds you distribute to others, make sure you choose "Release" in the toolchain settings and not the debug flavour.
 - Menu "Build" -> "Build all"
-- Result will be in ../build_rpi-imager_someversion
+- Result will be in build_rpi-imager_someversion
 - Go to the BUILD folder, right click on the .nsi script "Compile NSIS script", to create installer.
 
 Note: the CMake integration in Qt Creator is a bit flaky at times. If you made any custom changes to the CMakeLists.txt file and it subsequently gets in an endless loop where it never finishes the "configures" stage while re-processing the file, delete "build_rpi-imager_someversion" directory and try again.
@@ -127,9 +130,9 @@ During installation, choose a Qt 5.x edition and CMake.
 #### Building
 
 - Download source .zip from github and extract it to a folder on disk
-- Start Qt Creator (may need to start "finder" navigate to home folder using the "Go" menu, and find Qt folder to start it manually as it may not have created icon in Applications), and open CMakeLists.txt
+- Start Qt Creator (may need to start "finder" navigate to home folder using the "Go" menu, and find Qt folder to start it manually as it may not have created icon in Applications), and open src/CMakeLists.txt
 - Menu "Build" -> "Build all"
-- Result will be in ../build_rpi-imager_someversion
+- Result will be in build_rpi-imager_someversion
 - For distribution to others: code sign the .app, create a DMG, code sign the DMG, submit it for notarization to Apple and staple the notarization ticket to the DMG.
 
 E.g.:
@@ -143,6 +146,23 @@ mv Raspberry\ Pi\ Imager\ .dmg imager.dmg
 xcrun altool --notarize-app -t osx -f imager.dmg --primary-bundle-id="org.raspberrypi.imagingutility" -u YOUR-EMAIL-ADDRESS -p YOUR-APP-SPECIFIC-APPLE-PASSWORD -itc_provider TEAM-ID-IF-APPLICABLE
 xcrun stapler staple imager.dmg
 ```
+
+### Linux embedded (netboot) build
+
+The embedded build runs under a minimalistic Linux distribution compiled by buildroot.
+To build:
+
+- You must be running a Linux system, and have the buildroot dependencies installed as listed in the buildroot manual: https://buildroot.org/downloads/manual/manual.html#requirement
+- Run:
+
+```
+cd rpi-imager/embedded
+./build.sh
+```
+
+The result will be in the "output" directory.
+The files can be copied to a FAT32 formatted SD card, and inserted in a Pi for testing.
+If you would like to build a (signed) netboot image there are tools for that at: https://github.com/raspberrypi/usbboot/tree/master/tools
 
 ## Other notes
 
@@ -158,7 +178,7 @@ So can simply create another 'start menu shortcut' to the application with that 
 
 ### Telemetry
 
-In order to understand which images and operating systems are most popular and re-organise the application accordingly, when using the default image repository, the URL, operating system name and category (if present) of a selected image are sent to https://rpi-imager-stats.raspberrypi.com by [`downloadstatstelemetry.cpp`](https://github.com/raspberrypi/rpi-imager/blob/qml/downloadstatstelemetry.cpp).
+In order to understand usage of the application (e.g. uptake of Raspberry Pi Imager versions and which images and operating systems are most popular) when using the default image repository, the URL, operating system name and category (if present) of a selected image are sent along with the running version of Raspberry Pi Imager, your operating system, CPU architecture, locale and Raspberry Pi revision (if applicable) to https://rpi-imager-stats.raspberrypi.com by downloadstatstelemetry.cpp.
 
 This web service is hosted by [Heroku](https://www.heroku.com) and only stores an incrementing counter using a [Redis Sorted Set](https://redis.io/topics/data-types#sorted-sets) for each URL, operating system name and category per day in the `eu-west-1` region and does not associate any personal data with those counts. This allows us to query the number of downloads over time and nothing else.
 

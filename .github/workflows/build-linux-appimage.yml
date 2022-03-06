@@ -1,4 +1,4 @@
-name: Build Image
+name: Build AppImage
 
 on:
   repository_dispatch:
@@ -25,7 +25,7 @@ jobs:
         cd build
         cmake ..
         make
-        docker run -e EXTRA_BINARIES="" --cap-add SYS_ADMIN --device /dev/fuse -v `pwd`/appdir:/app/usr:Z --rm -ti mhitza/linuxdeployqt:5.15.2
+        docker run -e EXTRA_BINARIES="" --cap-add SYS_ADMIN --device /dev/fuse -v `pwd`/appdir:/app/usr:Z --rm mhitza/linuxdeployqt:5.15.2
 
     # artifact upload will take care of zipping for us
     - uses: actions/upload-artifact@v1

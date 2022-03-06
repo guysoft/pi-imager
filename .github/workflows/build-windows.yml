@@ -92,7 +92,7 @@ jobs:
 
           
           echo "Let's build"
-          
+          cd src
           mkdir build
           cd build
           cmake -G Ninja ..
@@ -103,4 +103,4 @@ jobs:
     - uses: actions/upload-artifact@v1
       with:
         name: pi-imager-windows
-        path: ${{ github.workspace }}\build\deploy
+        path: ${{ github.workspace }}\src\build\deploy

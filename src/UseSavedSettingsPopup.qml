@@ -98,7 +98,7 @@ Popup {
                     msgpopup.no()
                 }
                 Material.foreground: activeFocus ? "#d1dcfb" : "#ffffff"
-                Material.background: "#c51a4a"
+                Material.background: "#7921b1"
             }
 
             ImButton {
@@ -108,7 +108,7 @@ Popup {
                     msgpopup.yes()
                 }
                 Material.foreground: activeFocus ? "#d1dcfb" : "#ffffff"
-                Material.background: "#c51a4a"
+                Material.background: "#7921b1"
             }
 
             ImButton {
@@ -118,7 +118,7 @@ Popup {
                     msgpopup.editSettings()
                 }
                 Material.foreground: activeFocus ? "#d1dcfb" : "#ffffff"
-                Material.background: "#c51a4a"
+                Material.background: "#7921b1"
             }
 
             Text { text: " " }

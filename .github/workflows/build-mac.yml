@@ -49,6 +49,7 @@ jobs:
           
           echo "Let's build"
           
+          cd src
           mkdir build
           cd build
           cmake -G Ninja ..

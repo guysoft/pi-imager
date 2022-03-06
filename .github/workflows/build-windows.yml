@@ -28,6 +28,7 @@ jobs:
     - name: 🩹 Patch CMakeLists.txt
       shell: msys2 {0}
       run: |
+          cd src
           echo "Adding inlcude lines and lib lines on our own"
           sed -n -i 'p;290a set(OPENSSL_INCLUDE_DIR "C:/msys2/msys64/mingw32/include")' CMakeLists.txt
           

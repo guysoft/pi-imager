@@ -34,14 +34,13 @@ jobs:
 
         echo "::set-output name=image::$DEB_PATH"
     - name: Build Appimage
+      id: appimage
       run: |
         wget https://github.com/simoniz0r/deb2appimage/releases/download/v0.0.5/deb2appimage-0.0.5-x86_64.AppImage
         chmod 755 deb2appimage-0.0.5-x86_64.AppImage
         ./deb2appimage-0.0.5-x86_64.AppImage -j pi-imager-appimage.yml --output .
         
         APPIMAGE_PATH=$(ls rpi-imager*.AppImage | head -n 1)
-        ls -l rpi-imager-1.7.1-x86_64.AppImage
-        echo "appimage: ${APPIMAGE_PATH}" 
         echo "::set-output name=appimage::${APPIMAGE_PATH}"
         
 
@@ -53,5 +52,5 @@ jobs:
     # artifact upload will take care of zipping for us
     - uses: actions/upload-artifact@v1
       with:
-        name: ${{ steps.copy.outputs.appimage }}
-        path: ${{ steps.copy.outputs.appimage }}
+        name: ${{ steps.appimage.outputs.appimage }}
+        path: ${{ steps.appimage.outputs.appimage }}

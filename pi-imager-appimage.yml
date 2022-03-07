@@ -1,0 +1,48 @@
+{
+    "buildinfo": [
+    {
+        "prerun": [
+            "cp *.deb ~/.cache/deb2appimage/debs/"
+        ],
+        "name": "rpi-imager",
+        "version": "1.7.1",
+        "deps": "",
+        "repoarch": "amd64",
+        "distrorepo": "Ubuntu",
+        "repoversion": "focal",
+        "binarypath": "/usr/bin/rpi-imager",
+        "desktoppath": "/usr/share/applications/rpi-imager.desktop",
+        "iconpath": "/usr/share/icons/hicolor/128x128/apps/rpi-imager.png",
+        "usewrapper": "true",
+        "postrun": [
+            null
+        ]
+    }
+    ],
+    "apprunconf": [
+    {
+        "setpath": "true",
+        "setlibpath": "false",
+        "setpythonpath": "false",
+        "setpythonhome": "false",
+        "setpythondontwritebytecode": "false",
+        "setxdgdatadirs": "false",
+        "setperllib": "false",
+        "setgsettingsschemadir": "false",
+        "setqtpluginpath": "false",
+        "exec": "/usr/bin/rpi-imager"
+    }
+    ],
+    "authors": [
+    {
+        "type": "Author",
+        "author": "Guy Sheffer",
+        "url": "https://github.com/guysoft/pi-imager"
+    },
+    {
+        "type": "AppImage Maintainer",
+        "author": "Guy Sheffer",
+        "url": "https://github.com/guysoft/pi-imager"
+    }
+    ]
+}

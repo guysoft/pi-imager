@@ -13,6 +13,11 @@ The result isn't targeted to be clean and simple like the original rpi-imager, b
 - Download the latest version for Windows, macOS and Ubuntu from the [Release page](https://github.com/guysoft/pi-imager/releases).
 - To install on Raspberry Pi OS, use `sudo apt update && sudo apt install rpi-imager`.
 
+# I want to add my own distrution!
+You can subbmit a pull request with the appropriate json here [to this repo](https://github.com/guysoft/pi-imager-web)
+
+You can see [example json files pull requests here](https://github.com/guysoft/pi-imager-web/pulls?q=is%3Apr+is%3Aclosed).
+
 ## License
 
 The main code of the Imaging Utility is made available under the terms of the Apache license.

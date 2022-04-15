@@ -1007,6 +1007,8 @@ bool ImageWriter::getBoolSetting(const QString &key)
         return _settings.value(key, TELEMETRY_ENABLED_DEFAULT).toBool();
     else if (key == "eject")
         return _settings.value(key, true).toBool();
+    else if (key == "check_version")
+        return _settings.value(key, CHECK_VERSION_DEFAULT).toBool();
     else
         return _settings.value(key).toBool();
 }

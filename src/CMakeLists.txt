@@ -111,6 +111,18 @@ else()
     message(STATUS "LTO not supported: <${ipoerror}>")
 endif()
 
+if(ENABLE_TELEMETRY)
+    add_definitions(-DTELEMETRY_ENABLED_DEFAULT=true)
+else()
+    add_definitions(-DTELEMETRY_ENABLED_DEFAULT=false)
+endif()
+
+if(ENABLE_CHECK_VERSION)
+    add_definitions(-DCHECK_VERSION_DEFAULT=true)
+else()
+    add_definitions(-DCHECK_VERSION_DEFAULT=false)
+endif()
+
 # Because dependencies are typically not available by default on Windows, build bundled code
 if (WIN32)
     # Target Windows 7 (needed for drivelist module)

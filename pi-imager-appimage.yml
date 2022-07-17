@@ -5,7 +5,7 @@
             "cp *.deb ~/.cache/deb2appimage/debs/"
         ],
         "name": "rpi-imager",
-        "version": "1.7.1-unofficial",
+        "version": "1.7.2-unofficial",
         "deps": "",
         "repoarch": "amd64",
         "distrorepo": "Ubuntu",

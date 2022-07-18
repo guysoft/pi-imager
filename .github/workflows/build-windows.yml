@@ -52,7 +52,7 @@ jobs:
         target: 'desktop'
         arch: 'win32_mingw81'
         # Tools format is name,version,variant tools are listed here: https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/
-        tools: 'tools_cmake,3.21.1,qt.tools.cmake.win64 tools_mingw,8.1.0,qt.tools.win32_mingw810 tools_ninja,1.10.2,qt.tools.ninja'
+        tools: 'tools_cmake,3.21.1,qt.tools.cmake tools_mingw,8.1.0,qt.tools.win32_mingw810 tools_ninja,1.10.2,qt.tools.ninja'
         install-deps: 'true'
         setup-python: 'true'
         cached: 'false'

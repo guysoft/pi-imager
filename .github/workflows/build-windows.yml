@@ -30,10 +30,12 @@ jobs:
       run: |
           cd src
           echo "Adding inlcude lines and lib lines on our own"
-          sed -n -i 'p;290a set(OPENSSL_INCLUDE_DIR "C:/msys2/msys64/mingw32/include")' CMakeLists.txt
+          dir "C:/msys2/msys64/mingw32/include"
+          sed -n -i 'p;315a set(OPENSSL_INCLUDE_DIR "C:/msys2/msys64/mingw32/include")' CMakeLists.txt
+          dir "C:/msys2/msys64/mingw32"
           
           echo "Adding inlcude lines and lib lines on our own"
-          sed -n -i 'p;290a set(OPENSSL_LIBRARIES "C:/msys2/msys64/mingw32/lib/libssl.a" "C:/msys2/msys64/mingw32/lib/libcrypto.a")' CMakeLists.txt
+          sed -n -i 'p;315a set(OPENSSL_LIBRARIES "C:/msys2/msys64/mingw32/lib/libssl.a" "C:/msys2/msys64/mingw32/lib/libcrypto.a")' CMakeLists.txt
           
           echo "Patching remove openssl find"
           sed -i 's/find_package(OpenSSL REQUIRED)//g' CMakeLists.txt

@@ -74,6 +74,9 @@ public:
     /* Set custom repository */
     Q_INVOKABLE void setCustomOsListUrl(const QUrl &url);
 
+    /* Set custom cache file */
+    void setCustomCacheFile(const QString &cacheFile, const QByteArray &sha256);
+
     /* Utility function to open OS file dialog */
     Q_INVOKABLE void openFileDialog();
 
@@ -118,6 +121,7 @@ public:
     Q_INVOKABLE QStringList getTranslations();
     Q_INVOKABLE QString getCurrentLanguage();
     Q_INVOKABLE QString getCurrentKeyboard();
+    Q_INVOKABLE QString getCurrentUser();
     Q_INVOKABLE void changeLanguage(const QString &newLanguageName);
     Q_INVOKABLE void changeKeyboard(const QString &newKeymapLayout);
     Q_INVOKABLE bool customRepo();
@@ -168,6 +172,7 @@ protected:
     bool _verifyEnabled, _multipleFilesInZip, _cachingEnabled, _embeddedMode, _online, _disable_user;
     QSettings _settings;
     QMap<QString,QString> _translations;
+    bool _customCacheFile;
     QTranslator *_trans;
 #ifdef Q_OS_WIN
     QWinTaskbarButton *_taskbarButton;

@@ -60,8 +60,8 @@ namespace Drivelist
         }
 
         QJsonDocument d = QJsonDocument::fromJson(output);
-        QJsonArray a = d.object()["blockdevices"].toArray();
-        for (auto i : a)
+        const QJsonArray a = d.object()["blockdevices"].toArray();
+        for (const auto &i : a)
         {
             DeviceDescriptor d;
             QJsonObject bdev = i.toObject();
@@ -132,7 +132,7 @@ namespace Drivelist
             if (d.isSystem && subsystems.contains("nvme"))
             {
                 bool isMounted = false;
-                for (std::string mp : d.mountpoints)
+                for (const std::string& mp : d.mountpoints)
                 {
                     if (!QByteArray::fromStdString(mp).startsWith("/media/")) {
                         isMounted = true;

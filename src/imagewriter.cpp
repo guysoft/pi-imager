@@ -39,9 +39,6 @@
 #ifdef Q_OS_DARWIN
 #include <QMessageBox>
 #include <security/security.h>
-#else
-#include "openssl/evp.h"
-#include "openssl/sha.h"
 #endif
 
 #ifdef Q_OS_WIN
@@ -60,10 +57,16 @@
 #include <QtPlatformHeaders/QEglFSFunctions>
 #endif
 
+#ifdef Q_OS_LINUX
+#ifndef QT_NO_DBUS
+#include "linux/networkmanagerapi.h"
+#endif
+#endif
+
 ImageWriter::ImageWriter(QObject *parent)
     : QObject(parent), _repo(QUrl(QString(OSLIST_URL))), _dlnow(0), _verifynow(0),
       _engine(nullptr), _thread(nullptr), _verifyEnabled(false), _cachingEnabled(false),
-      _embeddedMode(false), _online(false), _trans(nullptr)
+      _embeddedMode(false), _online(false), _customCacheFile(false), _trans(nullptr)
 {
     connect(&_polltimer, SIGNAL(timeout()), SLOT(pollProgress()));
 
@@ -275,7 +278,7 @@ void ImageWriter::startWrite()
     {
         _thread = new LocalFileExtractThread(urlstr, _dst.toLatin1(), _expectedHash, this);
     }
-    else if (compressed)
+    else
     {
         _thread = new DownloadExtractThread(urlstr, _dst.toLatin1(), _expectedHash, this);
         if (_repo.toString() == OSLIST_URL)
@@ -284,11 +287,6 @@ void ImageWriter::startWrite()
             connect(tele, SIGNAL(finished()), tele, SLOT(deleteLater()));
             tele->start();
         }
-    }
-    else
-    {
-        _thread = new DownloadThread(urlstr, _dst.toLatin1(), _expectedHash, this);
-        _thread->setInputBufferSize(IMAGEWRITER_UNCOMPRESSED_BLOCKSIZE);
     }
 
     connect(_thread, SIGNAL(success()), SLOT(onSuccess()));
@@ -352,8 +350,11 @@ void ImageWriter::startWrite()
 
 void ImageWriter::onCacheFileUpdated(QByteArray sha256)
 {
-    _settings.setValue("caching/lastDownloadSHA256", sha256);
-    _settings.sync();
+    if (!_customCacheFile)
+    {
+        _settings.setValue("caching/lastDownloadSHA256", sha256);
+        _settings.sync();
+    }
     _cachedFileHash = sha256;
     qDebug() << "Done writing cache file";
 }
@@ -422,6 +423,14 @@ bool ImageWriter::isVersionNewer(const QString &version)
 void ImageWriter::setCustomOsListUrl(const QUrl &url)
 {
     _repo = url;
+}
+
+void ImageWriter::setCustomCacheFile(const QString &cacheFile, const QByteArray &sha256)
+{
+    _cacheFileName = cacheFile;
+    _cachedFileHash = QFile::exists(cacheFile) ? sha256 : "";
+    _customCacheFile = true;
+    _cachingEnabled = true;
 }
 
 /* Start polling the list of available drives */
@@ -578,7 +587,7 @@ void ImageWriter::openFileDialog()
 
     QFileDialog *fd = new QFileDialog(nullptr, tr("Select image"),
                                       path,
-                                      "Image files (*.img *.zip *.iso *.gz *.xz *.zst);;All files (*.*)");
+                                      "Image files (*.img *.zip *.iso *.gz *.xz *.zst);;All files (*)");
     connect(fd, SIGNAL(fileSelected(QString)), SLOT(onFileSelected(QString)));
 
     if (_engine)
@@ -904,6 +913,25 @@ QString ImageWriter::getSSID()
     return ssid;
 }
 
+inline QString unescapeXml(QString str)
+{
+    static const char *table[] = {
+        "&lt;", "<",
+        "&gt;", ">",
+        "&quot;", "\"",
+        "&apos;", "'",
+        "&amp;", "&"
+    };
+    int tableLen = sizeof(table) / sizeof(table[0]);
+
+    for (int i=0; i < tableLen; i+=2)
+    {
+        str.replace(table[i], table[i+1]);
+    }
+
+    return str;
+}
+
 QString ImageWriter::getPSK(const QString &ssid)
 {
 #ifdef Q_OS_WIN
@@ -948,7 +976,7 @@ QString ImageWriter::getPSK(const QString &ssid)
                             QRegularExpressionMatch match = rx.match(xml);
 
                             if (match.hasMatch()) {
-                                psk = match.captured(1);
+                                psk = unescapeXml(match.captured(1));
                             }
 
                             WlanFreeMemory(xmlstr);
@@ -994,8 +1022,13 @@ QString ImageWriter::getPSK(const QString &ssid)
 
     return psk;
 #else
+#ifndef QT_NO_DBUS
+    NetworkManagerApi nm;
+    return nm.getPSK();
+#else
     Q_UNUSED(ssid)
     return QString();
+#endif
 #endif
 #endif
 }
@@ -1232,6 +1265,26 @@ QString ImageWriter::detectPiKeyboard()
     }
 
     return QString();
+}
+
+QString ImageWriter::getCurrentUser()
+{
+    QString user = qgetenv("USER");
+
+    if (user.isEmpty())
+        user = qgetenv("USERNAME");
+
+    user = user.toLower();
+    if (user.contains(" "))
+    {
+        auto names = user.split(" ");
+        user = names.first();
+    }
+
+    if (user.isEmpty() || user == "root")
+        user = "pi";
+
+    return user;
 }
 
 bool ImageWriter::hasMouse()
